@@ -217,7 +217,7 @@ async def update_cart_item(request: AddToCartRequest, userId: str = "mock-user")
 
 @api_router.delete("/cart/remove/{product_id}")
 async def remove_from_cart(product_id: str, userId: str = "mock-user"):
-    cart = await db.carts.find_one({"userId": userId})
+    cart = await db.carts.find_one({"userId": userId}, {"_id": 0})
     if cart:
         items = [item for item in cart.get("items", []) if item["productId"] != product_id]
         await db.carts.update_one(
