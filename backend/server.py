@@ -160,10 +160,11 @@ async def create_review(review: ReviewCreate):
 # Cart endpoints
 @api_router.get("/cart")
 async def get_cart(userId: str = "mock-user"):
-    cart = await db.carts.find_one({"userId": userId})
+    cart = await db.carts.find_one({"userId": userId}, {"_id": 0})
     if not cart:
         cart = Cart(userId=userId).dict()
         await db.carts.insert_one(cart)
+        cart = await db.carts.find_one({"userId": userId}, {"_id": 0})
     return cart
 
 
