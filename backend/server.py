@@ -194,7 +194,7 @@ async def add_to_cart(request: AddToCartRequest, userId: str = "mock-user"):
 
 @api_router.post("/cart/update")
 async def update_cart_item(request: AddToCartRequest, userId: str = "mock-user"):
-    cart = await db.carts.find_one({"userId": userId})
+    cart = await db.carts.find_one({"userId": userId}, {"_id": 0})
     if not cart:
         raise HTTPException(status_code=404, detail="Cart not found")
     
